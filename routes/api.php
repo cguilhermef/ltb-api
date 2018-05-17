@@ -21,3 +21,6 @@ Route::post('register', 'AuthController@register');
 Route::post('login', 'AuthController@login');
 
 Route::apiResource('users', 'UserController');
+Route::apiResource('teams', 'TeamController');
+Route::apiResource('regions', 'RegionController');
+Route::apiResource('profiles', 'ProfileController');
