@@ -29,7 +29,7 @@ class TeamController extends Controller
         $team = Team::create([
             'name' => $request->name,
             'user_id' => $request->user()->id,
-            'region_id' => $request->region()->id
+            'region_id' => $request->region_id
         ]);
         return new TeamResource($team);
     }
