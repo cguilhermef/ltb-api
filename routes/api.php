@@ -17,11 +17,10 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-
 Route::post('register', 'AuthController@register');
 Route::post('login', 'AuthController@login');
 
-Route::apiResource('users', 'UserController');
-Route::apiResource('teams', 'TeamController');
-Route::apiResource('regions', 'RegionController');
 Route::apiResource('profiles', 'ProfileController');
+Route::apiResource('regions', 'RegionController');
+Route::apiResource('teams', 'TeamController');
+Route::apiResource('users', 'UserController');

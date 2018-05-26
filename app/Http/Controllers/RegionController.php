@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Region;
-use App\Http\Resources\Region as RegionResource;
+use App\Http\Resources\RegionResource;
 
 class RegionController extends Controller
 {
@@ -37,7 +37,7 @@ class RegionController extends Controller
      */
     public function show($id)
     {
-        //
+        return new RegionResource(id);
     }
 
     /**

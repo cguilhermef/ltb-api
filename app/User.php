@@ -16,7 +16,7 @@ class User extends Authenticatable implements JWTSubject
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password',
+        'email', 'nickname', 'password', 'region_id', 'summoner_id'
     ];
 
     /**
@@ -42,7 +42,7 @@ class User extends Authenticatable implements JWTSubject
         return $this->hasMany(Team::class);
     }
 
-    public function profiles() {
-        return $this->hasMany(Profile::class);
+    public function regions() {
+        return $this->belongsTo(Region::class);
     }
 }

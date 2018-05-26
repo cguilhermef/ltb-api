@@ -3,10 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\User;
-use App\Http\Resources\UserResource;
 
-class UserController extends Controller
+class ModeController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,7 +13,7 @@ class UserController extends Controller
      */
     public function index()
     {
-        return UserResource::collection(User::all());
+        //
     }
 
     /**
@@ -35,9 +33,9 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(User $user)
+    public function show($id)
     {
-        return new UserResource($user);
+        //
     }
 
     /**
