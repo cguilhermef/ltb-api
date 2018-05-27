@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Summoner;
 use App\Tier;
 use GuzzleHttp\Client;
+use GuzzleHttp\Exception\ClientException;
 use Illuminate\Http\Request;
 use Psr\Http\Message\ResponseInterface;
 use GuzzleHttp\Exception\RequestException;
@@ -33,7 +34,18 @@ class AuthController extends Controller
                 'api_key' => env('RIOT_API_KEY')
             ]
         ]);
-        $summonerResponse = $client->get("summoner/v3/summoners/by-name/$request->nickname");
+        try {
+            $summonerResponse = $client->get("summoner/v3/summoners/by-name/$request->nickname");
+        } catch (ClientException $exception) {
+            return response([
+                'errors' => [
+                    [
+                        'status' => 404,
+                        'detail' => 'Nome de invocador não encontrado!'
+                    ]
+                ],
+            ], 400);
+        }
         if($summonerResponse->getStatusCode() !== 200) {
             return response([
                 'errors' => [
