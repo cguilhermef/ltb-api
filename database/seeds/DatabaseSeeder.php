@@ -11,10 +11,15 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        // $this->call(UsersTableSeeder::class);
+        DB::table('regions')->delete();
+        DB::table('tiers')->delete();
+        DB::table('modes')->delete();
+        DB::table('maps')->delete();
         $this->call([
             RegionsTableSeeder::class,
-            TiersTableSeeder::class
+            TiersTableSeeder::class,
+            MapsTableSeeder::class,
+            ModesTableSeeder::class
         ]);
     }
 }

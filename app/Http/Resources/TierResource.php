@@ -2,10 +2,9 @@
 
 namespace App\Http\Resources;
 
-use App\Team;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class TeamResource extends JsonResource
+class TierResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -17,15 +16,8 @@ class TeamResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'abbreviation' => $this->abbreviation,
             'name' => $this->name,
-            'tier_min' => $this->tier_min,
-            'user_id' => $this->user_id,
-            'modes' => ModeResource::collection($this->modes),
-            'created_at' => (string) $this->created_at,
-            'updated_at' => (string) $this->updated_at
+            'riot_id' => $this->riot_id
         ];
     }
-
-
 }

@@ -7,15 +7,16 @@ use Illuminate\Database\Eloquent\Model;
 class Team extends Model
 {
     protected $fillable = [
+        'abbreviation',
         'name',
-        'user_id',
-        'region_id'
+        'tier_min',
+        'user_id'
     ];
     public function user() {
         return $this->belongsTo(User::class);
     }
 
-    public function region() {
-        return $this->belongsTo(Region::class);
+    public function modes() {
+        return $this->belongsToMany(Mode::class, 'teams_has_modes', 'teams_id', 'modes_id');
     }
 }

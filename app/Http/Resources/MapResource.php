@@ -1,11 +1,10 @@
 <?php
 
 namespace App\Http\Resources;
-
-use App\Team;
 use Illuminate\Http\Resources\Json\JsonResource;
+use App\Mode;
 
-class TeamResource extends JsonResource
+class MapResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -17,15 +16,9 @@ class TeamResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'abbreviation' => $this->abbreviation,
             'name' => $this->name,
-            'tier_min' => $this->tier_min,
-            'user_id' => $this->user_id,
-            'modes' => ModeResource::collection($this->modes),
-            'created_at' => (string) $this->created_at,
-            'updated_at' => (string) $this->updated_at
+            'active' => $this->active,
+            'modes' => Mode::where('map_id', $this->id)->get()
         ];
     }
-
-
 }

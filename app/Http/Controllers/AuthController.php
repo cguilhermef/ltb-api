@@ -46,16 +46,6 @@ class AuthController extends Controller
                 ],
             ], 400);
         }
-        if($summonerResponse->getStatusCode() !== 200) {
-            return response([
-                'errors' => [
-                    [
-                        'details' => 'Problema!'
-                    ]
-                ],
-                'riot' => $summonerResponse->getBody()
-            ], 400);
-        }
         $riot_summoner = json_decode($summonerResponse->getBody());
         $rankingResponse = $client->get("league/v3/positions/by-summoner/$riot_summoner->id");
         $rankings = json_decode($rankingResponse->getBody());
@@ -95,7 +85,10 @@ class AuthController extends Controller
 
         $token = auth()->login($user);
         return response()->json([
-            'data' => $user,
+            'data' => [
+                'user' => $user,
+                'summoner' => $summoner
+            ],
             'token' => $token
         ]);
     }
@@ -103,14 +96,24 @@ class AuthController extends Controller
     public function login(Request $request) {
         $credentials = $request->only(['email', 'password']);
         if(!$token = auth()->attempt($credentials)) {
-            return response()->json(['error' => 'Unauthorized'], 401);
+            return response([
+                'errors' => [
+                    [
+                        'status' => 404,
+                        'detail' => 'Usuário ou senha incorretos!'
+                    ]
+                ],
+            ], 401);
         }
         $user = auth()->user();
+        $summoner = Summoner::where('id', $user->summoner_id)->first();
         return response()->json([
-            'user' => $user,
+            'data' => [
+                'user' => $user,
+                'summoner' => $summoner
+            ],
             'token' => $token
         ]);
-//        return $this->respondWithToken($token);
     }
 
     protected function respondWithToken($token) {

@@ -2,13 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Resources\ModeResource;
+use App\Http\Resources\MapResource;
+use App\Map;
 use Illuminate\Http\Request;
-use App\Team;
-use App\Mode;
-use App\Http\Resources\TeamResource;
 
-class TeamController extends Controller
+class MapController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -17,7 +15,7 @@ class TeamController extends Controller
      */
     public function index()
     {
-        return TeamResource::collection(Team::all());
+        return MapResource::collection(Map::all());
     }
 
     /**
@@ -28,16 +26,7 @@ class TeamController extends Controller
      */
     public function store(Request $request)
     {
-        $team = Team::create([
-            'abbreviation' => $request->abbreviation,
-            'name' => $request->name,
-            'user_id' => $request->user()->id,
-            'tier_min' => $request->tier_min
-        ]);
-
-        $team->modes()->attach($request->modes);
-
-        return $team;
+        //
     }
 
     /**
