@@ -80,8 +80,10 @@ class VacancyController extends Controller
      * @param  int $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy($teamId, $id)
     {
-        //
+        $vacancy = Vacancy::find($id);
+        $vacancy->delete();
+        return response()->json([], 204);
     }
 }
