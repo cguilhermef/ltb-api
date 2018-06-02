@@ -13,6 +13,11 @@ class TeamResource extends JsonResource
      * @param  \Illuminate\Http\Request  $request
      * @return array
      */
+
+//    public function listByUser() {
+//        return Team::where()
+//    }
+
     public function toArray($request)
     {
         return [

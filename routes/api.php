@@ -23,6 +23,8 @@ Route::post('login', 'AuthController@login');
 Route::apiResource('profiles', 'ProfileController');
 Route::apiResource('maps', 'MapController');
 Route::apiResource('regions', 'RegionController');
+Route::apiResource('roles', 'RoleController');
 Route::apiResource('teams', 'TeamController');
+Route::apiResource('teams/{teamId}/vacancies', 'VacancyController');
 Route::apiResource('tiers', 'TierController');
 Route::apiResource('users', 'UserController');

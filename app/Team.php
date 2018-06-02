@@ -19,4 +19,8 @@ class Team extends Model
     public function modes() {
         return $this->belongsToMany(Mode::class, 'teams_has_modes', 'teams_id', 'modes_id');
     }
+
+    public function vacancies() {
+        return $this->hasMany(Vacancy::class);
+    }
 }

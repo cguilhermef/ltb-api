@@ -12,11 +12,13 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         DB::table('regions')->delete();
+        DB::table('roles')->delete();
         DB::table('tiers')->delete();
         DB::table('modes')->delete();
         DB::table('maps')->delete();
         $this->call([
             RegionsTableSeeder::class,
+            RolesTableSeeder::class,
             TiersTableSeeder::class,
             MapsTableSeeder::class,
             ModesTableSeeder::class

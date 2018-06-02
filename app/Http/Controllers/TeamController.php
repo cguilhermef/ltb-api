@@ -2,10 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Resources\ModeResource;
 use Illuminate\Http\Request;
 use App\Team;
-use App\Mode;
 use App\Http\Resources\TeamResource;
 
 class TeamController extends Controller
@@ -37,7 +35,7 @@ class TeamController extends Controller
 
         $team->modes()->attach($request->modes);
 
-        return $team;
+        return $this->show($team->id);
     }
 
     /**
@@ -48,7 +46,7 @@ class TeamController extends Controller
      */
     public function show($id)
     {
-        //
+        return Team::with(['modes', 'vacancies'])->find($id);
     }
 
     /**
@@ -60,7 +58,14 @@ class TeamController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $team = $this->show($id);
+        $team->modes()->detach();
+        $team->modes()->attach($request->modes);
+        $team->name = $request->name;
+        $team->abbreviation = $request->abbreviation;
+        $team->tier_min = $request->tier_min;
+        $team->save();
+        return $this->show($team->id);
     }
 
     /**

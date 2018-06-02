@@ -2,9 +2,11 @@
 
 namespace App\Http\Resources;
 
+use App\Role;
+use App\Team;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class RoleResource extends JsonResource
+class VacancyResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -16,7 +18,8 @@ class RoleResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'name' => $this->name
+            'team_id' => Team::find($this->team_id),
+            'role_id' => Role::find($this->role_id)
         ];
     }
 }
