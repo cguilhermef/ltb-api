@@ -45,4 +45,8 @@ class User extends Authenticatable implements JWTSubject
     public function regions() {
         return $this->belongsTo(Region::class);
     }
+
+    public function summoner() {
+        return $this->belongsTo(Summoner::class);
+    }
 }

@@ -23,4 +23,8 @@ class Team extends Model
     public function vacancies() {
         return $this->hasMany(Vacancy::class);
     }
+
+    public function members() {
+        return $this->hasMany(Member::class);
+    }
 }

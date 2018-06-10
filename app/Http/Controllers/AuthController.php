@@ -51,19 +51,20 @@ class AuthController extends Controller
         $rankings = json_decode($rankingResponse->getBody());
 
         if (sizeof($rankings) == 0) {
-            $ranking = [
-                'tier_id' => 8
+            $ranking = (object) [
+                'tier' => 1
             ];
+
         } else {
             $ranking = $rankings[0];
             foreach ($rankings as $r) {
                 if ($this->tierToInt($r->tier) > $this->tierToInt($ranking->tier)) {
-                    $ranking = $r;
+                    $ranking->tier = $r->id;
                 }
             }
         }
 
-        $tier = Tier::where('riot_id', $ranking['tier_id'])->first();
+        $tier = Tier::where('riot_id', $ranking->tier)->first();
 
         $summoner = new Summoner;
         $summoner->id = $riot_summoner->id;
@@ -126,13 +127,14 @@ class AuthController extends Controller
 
     protected function tierToInt($tier) {
         $tiers = [
-            'BRONZE' => 1,
-            'SILVER' => 2,
-            'GOLD' => 3,
-            'PLATINUM' => 4,
-            'DIAMOND' => 5,
-            'MASTER' => 6,
-            'CHALLENGER' => 7
+            'UNRANKED' => 1,
+            'BRONZE' => 2,
+            'SILVER' => 3,
+            'GOLD' => 4,
+            'PLATINUM' => 5,
+            'DIAMOND' => 6,
+            'MASTER' => 7,
+            'CHALLENGER' => 8
         ];
         return $tiers[$tier];
     }

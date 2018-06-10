@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\VacancyResource;
 use App\Role;
 use App\Team;
 use App\Vacancy;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class VacancyController extends Controller
 {
@@ -14,7 +16,7 @@ class VacancyController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index($teamId)
+    public function teamVacancies($teamId)
     {
         if (!$teamId) {
             return response()->json([
@@ -30,6 +32,32 @@ class VacancyController extends Controller
         $vacancies = Vacancy::where('team_id', $teamId)->get();
         return response()->json([
             'data' => $vacancies
+        ]);
+    }
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function index(Request $request)
+    {
+        $user = $request->user();
+        if (!$user) {
+            $vacancies = VacancyResource::collection(Vacancy::all());
+            return response()->json([
+                'data' => $vacancies
+            ]);
+        }
+        $summoner = DB::table('summoners')->where('id', $user->summoner_id)->first();
+        $vacancies =
+            Vacancy::leftJoin('teams', 'vacancies.team_id', '=', 'teams.id')
+                ->where('teams.tier_min', '<=', $summoner->tier_id)
+                ->where('teams.user_id', '<>', $user->id)
+                ->get();
+        return response()->json([
+            'data' => $vacancies,
+            'summoner'=> $summoner
         ]);
     }
 

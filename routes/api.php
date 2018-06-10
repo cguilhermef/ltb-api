@@ -28,3 +28,4 @@ Route::apiResource('teams', 'TeamController');
 Route::apiResource('teams/{teamId}/vacancies', 'VacancyController');
 Route::apiResource('tiers', 'TierController');
 Route::apiResource('users', 'UserController');
+Route::apiResource('vacancies', 'VacancyController');

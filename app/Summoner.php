@@ -16,4 +16,8 @@ class Summoner extends Model
         'account_id',
         'tier_id'
     ];
+
+    public function tier() {
+        $this->belongsTo(Tier::class);
+    }
 }

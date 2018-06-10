@@ -2,10 +2,11 @@
 
 namespace App\Http\Resources;
 
-use App\Summoner;
+use App\Role;
+use App\User;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class UserResource extends JsonResource
+class MemberResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -17,11 +18,9 @@ class UserResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'email' => $this->email,
-            'nickname' => $this->nickname,
-            'region_id' => $this->region_id,
-            'password' => $this->password,
-            'summoner' => Summoner::find($this->summoner_id)
+            'team_id' => $this->team_id,
+            'role_id' => $this->role_id,
+            'user_id' => $this->user_id
         ];
     }
 }

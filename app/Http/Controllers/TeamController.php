@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Team;
 use App\Http\Resources\TeamResource;
+use Illuminate\Http\Resources\Json\Resource;
 
 class TeamController extends Controller
 {
@@ -13,9 +14,25 @@ class TeamController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        return TeamResource::collection(Team::all());
+        $user = $request->user();
+        $teams = Team::leftJoin('members', 'teams.id', '=', 'members.team_id')
+            ->select('teams.*')
+            ->where('teams.user_id', $user->id)
+            ->orWhere('members.user_id', $user->id)
+            ->get();
+//            ->filter(function($team) use ($user) {
+//                return $team->id
+//            })
+//        $teams = TeamResource::collection(Team::all());
+//        $teas->filter(function($team) {
+//          return $team->user->id == $user->id ? $team : null;
+//        });
+
+        return response()->json([
+            'data' => $teams
+        ]);
     }
 
     /**
@@ -46,7 +63,7 @@ class TeamController extends Controller
      */
     public function show($id)
     {
-        return Team::with(['modes', 'vacancies'])->find($id);
+        return Team::with(['modes', 'vacancies', 'members.user.summoner', 'user.summoner'])->find($id);
     }
 
     /**
