@@ -63,7 +63,12 @@ class TeamController extends Controller
      */
     public function show($id)
     {
-        return Team::with(['modes', 'vacancies', 'members.user.summoner', 'user.summoner'])->find($id);
+        return Team::with([
+            'modes',
+            'vacancies.candidates.user.summoner',
+            'members.user.summoner',
+            'user.summoner'
+        ])->find($id);
     }
 
     /**

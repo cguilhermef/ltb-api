@@ -3,8 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Resources\VacancyResource;
-use App\Role;
-use App\Team;
+use App\Member;
 use App\Vacancy;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -44,20 +43,32 @@ class VacancyController extends Controller
     {
         $user = $request->user();
         if (!$user) {
-            $vacancies = VacancyResource::collection(Vacancy::all());
+            $vacancies = Vacancy::leftJoin('teams', 'vacancies.team_id', '=', 'teams.id')->get();
             return response()->json([
                 'data' => $vacancies
             ]);
         }
         $summoner = DB::table('summoners')->where('id', $user->summoner_id)->first();
-        $vacancies =
-            Vacancy::leftJoin('teams', 'vacancies.team_id', '=', 'teams.id')
-                ->where('teams.tier_min', '<=', $summoner->tier_id)
-                ->where('teams.user_id', '<>', $user->id)
-                ->get();
+        $result = Vacancy::leftJoin('teams', 'vacancies.team_id', '=', 'teams.id')
+            ->where('teams.tier_min', '<=', $summoner->tier_id)
+            ->where('teams.user_id', '<>', $user->id)
+            ->get();
+        $alreadyMember = Member::where('user_id', $user->id)->get();
+        $vacancies = [];
+        if (sizeof($alreadyMember) === 0) {
+            $vacancies = $result;
+        } else {
+
+            foreach ($result as $r) {
+                foreach ($alreadyMember as $m) {
+                    if ($m->team_id !== $r->team_id) {
+                        array_push($vacancies, $r);
+                    }
+                }
+            }
+        }
         return response()->json([
-            'data' => $vacancies,
-            'summoner'=> $summoner
+            'data' => $vacancies
         ]);
     }
 
