@@ -22,6 +22,7 @@ Route::post('login', 'AuthController@login');
 
 Route::apiResource('candidates', 'CandidateController');
 Route::apiResource('maps', 'MapController');
+Route::apiResource('members', 'MembersController');
 Route::apiResource('profiles', 'ProfileController');
 Route::apiResource('regions', 'RegionController');
 Route::apiResource('roles', 'RoleController');

@@ -52,7 +52,14 @@ class VacancyController extends Controller
         $result = Vacancy::leftJoin('teams', 'vacancies.team_id', '=', 'teams.id')
             ->where('teams.tier_min', '<=', $summoner->tier_id)
             ->where('teams.user_id', '<>', $user->id)
-            ->get();
+            ->get(array(
+                'vacancies.*',
+                'teams.id as team_id',
+                'teams.abbreviation',
+                'teams.name',
+                'teams.tier_min',
+                'teams.user_id'
+            ));
         $alreadyMember = Member::where('user_id', $user->id)->get();
         $vacancies = [];
         if (sizeof($alreadyMember) === 0) {

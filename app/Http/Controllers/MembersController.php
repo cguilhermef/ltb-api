@@ -68,6 +68,8 @@ class MembersController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $member = Member::find($id);
+        $member->delete();
+        return response('',204);
     }
 }

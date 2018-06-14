@@ -66,10 +66,8 @@ class CandidateController extends Controller
     public function destroy($id)
     {
         $candidate = Candidate::find($id);
-        $vacancy = Vacancy::find($candidate->vacancy_id);
-        return response()->json([
-            'id' => $id,
-            'vacancy' => $vacancy
-        ]);
+        $candidate->delete();
+//        $vacancy = Vacancy::find($candidate->vacancy_id);
+        return response('', 204);
     }
 }

@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Candidate;
+use App\Member;
+use App\Vacancy;
 use Illuminate\Http\Request;
 use App\Team;
 use App\Http\Resources\TeamResource;
@@ -92,6 +95,15 @@ class TeamController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $team = Team::find($id);
+        $team->modes()->detach();
+        Member::where('team_id', $team->id)->delete();
+        $vacancies = Vacancy::where('team_id', $team->id)->get();
+        foreach ($vacancies as $v) {
+            Candidate::where('vacancy_id', $v->id)->delete();
+            $v->delete();
+        }
+        $team->delete();
+        return response('', 204);
     }
 }
