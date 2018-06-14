@@ -21,14 +21,8 @@ class TeamController extends Controller
             ->select('teams.*')
             ->where('teams.user_id', $user->id)
             ->orWhere('members.user_id', $user->id)
+            ->groupBy('teams.id')
             ->get();
-//            ->filter(function($team) use ($user) {
-//                return $team->id
-//            })
-//        $teams = TeamResource::collection(Team::all());
-//        $teas->filter(function($team) {
-//          return $team->user->id == $user->id ? $team : null;
-//        });
 
         return response()->json([
             'data' => $teams

@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources;
 
+use App\Vacancy;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class CandidadeResource extends JsonResource
@@ -14,6 +15,11 @@ class CandidadeResource extends JsonResource
      */
     public function toArray($request)
     {
-        return parent::toArray($request);
+        return [
+            'id' => $this->id,
+            'vacancy_id' => $this->vacancy_id,
+            'user' => User::find($this->user_id),
+            'vacancy' => Vacancy::find($this->vacancy_id)
+        ];
     }
 }

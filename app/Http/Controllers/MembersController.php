@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Candidate;
 use App\Member;
 use Illuminate\Http\Request;
 
@@ -25,10 +26,15 @@ class MembersController extends Controller
      */
     public function store(Request $request, $teamId)
     {
-        return response()->json([
-            'teamId' => $teamId,
-            'candidateId' => $request->candidateId
+
+        $candidate = Candidate::with(['vacancy', 'user'])->find($request->candidateId);
+        $member = Member::create([
+            'user_id' => $candidate->user_id,
+            'team_id' => $teamId,
+            'role_id' => $candidate->vacancy->role_id
         ]);
+        Candidate::destroy($candidate->id);
+        return $this->show($member->id);
     }
 
     /**
@@ -39,7 +45,7 @@ class MembersController extends Controller
      */
     public function show($id)
     {
-        //
+        return Member::with(['user.summoner', 'role'])->find($id);
     }
 
     /**
