@@ -3,9 +3,9 @@
 namespace App\Http\Resources;
 
 use App\Vacancy;
-use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Http\Resources\Json\Resource;
 
-class CandidadeResource extends JsonResource
+class CandidadeResource extends Resource
 {
     /**
      * Transform the resource into an array.

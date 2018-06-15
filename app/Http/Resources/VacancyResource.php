@@ -4,9 +4,9 @@ namespace App\Http\Resources;
 
 use App\Role;
 use App\Team;
-use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Http\Resources\Json\Resource;
 
-class VacancyResource extends JsonResource
+class VacancyResource extends Resource
 {
     /**
      * Transform the resource into an array.

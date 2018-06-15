@@ -2,13 +2,10 @@
 
 namespace App\Http\Resources;
 
-use App\Member;
-use App\Summoner;
-use App\Team;
 use App\User;
-use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Http\Resources\Json\Resource;
 
-class TeamResource extends JsonResource
+class TeamResource extends Resource
 {
     /**
      * Transform the resource into an array.
