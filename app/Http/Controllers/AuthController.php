@@ -7,8 +7,6 @@ use App\Tier;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ClientException;
 use Illuminate\Http\Request;
-use Psr\Http\Message\ResponseInterface;
-use GuzzleHttp\Exception\RequestException;
 use App\Region;
 use App\User;
 

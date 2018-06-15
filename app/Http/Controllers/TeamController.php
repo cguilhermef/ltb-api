@@ -7,8 +7,6 @@ use App\Member;
 use App\Vacancy;
 use Illuminate\Http\Request;
 use App\Team;
-use App\Http\Resources\TeamResource;
-use Illuminate\Http\Resources\Json\Resource;
 
 class TeamController extends Controller
 {
@@ -21,11 +19,12 @@ class TeamController extends Controller
     {
         $user = $request->user();
         $teams = Team::leftJoin('members', 'teams.id', '=', 'members.team_id')
-            ->select('teams.*')
             ->where('teams.user_id', $user->id)
             ->orWhere('members.user_id', $user->id)
             ->groupBy('teams.id')
-            ->get();
+            ->get(array(
+                'teams.*'
+            ));
 
         return response()->json([
             'data' => $teams
